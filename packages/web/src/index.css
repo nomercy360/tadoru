@@ -1,0 +1,56 @@
+@import "tailwindcss";
+
+@theme {
+  --color-paper: #F7F5F0;
+  --color-paper-hover: #fdfcfa;
+  --color-paper-warm: #faf9f7;
+  --color-ink: #1a1a1a;
+  --color-ink-secondary: #888;
+  --color-ink-tertiary: #aaa;
+  --color-ink-muted: #bbb;
+  --color-ink-body: #555;
+  --color-border: rgba(0, 0, 0, 0.08);
+  --color-border-hover: rgba(0, 0, 0, 0.14);
+  --color-border-medium: rgba(0, 0, 0, 0.12);
+  --color-separator: rgba(0, 0, 0, 0.06);
+  --color-accent: #6B5CE7;
+  --color-accent-bg: #F0EEFF;
+  --color-accent-bg-hover: #E5E0FF;
+  --color-grade-again: #C0392B;
+  --color-grade-hard: #B7770A;
+  --color-grade-good: #27704C;
+  --color-grade-easy: #185FA5;
+  --color-added-bg: #EAF5EE;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, 'Segoe UI', Roboto, sans-serif;
+  background: var(--color-paper);
+  color: var(--color-ink);
+}
+
+/* Play icon pseudo-element — can't do in Tailwind */
+.play-icon::after {
+  content: '';
+  border-left: 5px solid #fff;
+  border-top: 3px solid transparent;
+  border-bottom: 3px solid transparent;
+  margin-left: 2px;
+}
+
+/* Ruby text sizing */
+ruby rt {
+  font-size: 0.55em;
+  color: var(--color-ink-secondary);
+}
+
+/* Progress bar fill transition */
+.progress-fill {
+  transition: width 0.3s;
+}
+
+/* Card divider transition */
+.card-divider {
+  transition: opacity 0.2s;
+}

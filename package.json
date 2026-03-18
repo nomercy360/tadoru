@@ -1,0 +1,16 @@
+{
+  "name": "tadoru",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "dev:api": "cd packages/api && bun run --hot src/index.ts",
+    "dev:web": "bun run --filter @tadoru/web dev",
+    "dev": "bun run dev:api & bun run dev:web",
+    "db:generate": "bunx drizzle-kit generate --config packages/api/drizzle.config.ts",
+    "db:migrate": "bunx drizzle-kit migrate --config packages/api/drizzle.config.ts",
+    "db:push": "bunx drizzle-kit push --config packages/api/drizzle.config.ts",
+    "db:studio": "bunx drizzle-kit studio --config packages/api/drizzle.config.ts"
+  }
+}

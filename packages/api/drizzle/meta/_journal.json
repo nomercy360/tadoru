@@ -1,0 +1,13 @@
+{
+  "version": "7",
+  "dialect": "sqlite",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "6",
+      "when": 1773794709652,
+      "tag": "0000_adorable_landau",
+      "breakpoints": true
+    }
+  ]
+}

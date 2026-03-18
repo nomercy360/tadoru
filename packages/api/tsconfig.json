@@ -1,0 +1,10 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "dist",
+    "paths": {
+      "@tadoru/core": ["../core/src"]
+    }
+  },
+  "include": ["src"]
+}
