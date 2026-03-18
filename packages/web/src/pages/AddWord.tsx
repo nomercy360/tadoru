@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
-import { api, type NodeWithConnections } from "../lib/api";
+import { api, type NodeWithConnections, type Node } from "../lib/api";
 import { Ruby } from "../components/Ruby";
 
 export function AddWord() {
@@ -8,6 +8,7 @@ export function AddWord() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [result, setResult] = useState<NodeWithConnections | null>(null);
+  const [connectedNodes, setConnectedNodes] = useState<Map<string, Node>>(new Map());
   const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -15,10 +16,24 @@ export function AddWord() {
     if (!surface.trim()) return;
     setLoading(true);
     setError(null);
+    setConnectedNodes(new Map());
     try {
       const node = await api.nodes.create(surface.trim());
       setResult(node);
       setSurface("");
+
+      // Fetch connected node details
+      if (node.edges.length > 0) {
+        const otherIds = node.edges.map((e) => (e.toId === node.id ? e.fromId : e.toId));
+        const unique = [...new Set(otherIds)];
+        const fetched = new Map<string, Node>();
+        await Promise.all(
+          unique.map((nid) =>
+            api.nodes.get(nid).then((d) => fetched.set(nid, d)).catch(() => {})
+          )
+        );
+        setConnectedNodes(fetched);
+      }
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to create node");
     } finally {
@@ -98,12 +113,16 @@ export function AddWord() {
               <div className="flex flex-col gap-px bg-separator rounded-[10px] overflow-hidden">
                 {result.edges.map((edge) => {
                   const otherId = edge.toId === result.id ? edge.fromId : edge.toId;
+                  const other = connectedNodes.get(otherId);
                   return (
                     <div
                       key={edge.id}
                       className="flex items-center bg-white py-3 px-4 cursor-pointer transition-colors hover:bg-paper-warm"
                       onClick={() => navigate(`/nodes/${otherId}`)}
                     >
+                      <span className="text-lg text-ink min-w-[80px]">{other?.surface ?? "..."}</span>
+                      <span className="text-xs text-ink-tertiary min-w-[60px]">{other?.reading ?? ""}</span>
+                      <span className="text-[13px] text-ink-body flex-1">{other?.meanings?.[0] ?? ""}</span>
                       <span className="text-[11px] text-ink-tertiary ml-auto flex items-center gap-2">
                         {edge.type.replace(/_/g, " ")}
                         <span className="inline-block w-9 h-[3px] bg-separator rounded-sm relative">

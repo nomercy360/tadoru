@@ -76,7 +76,7 @@ export function Review() {
     return (
       <div className="text-center pt-20">
         <h1 className="text-2xl font-normal mb-2">Session complete</h1>
-        <p className="text-ink-secondary text-sm">Reviewed {reviewed} cards.</p>
+        <p className="text-ink-secondary text-sm">Reviewed {reviewed} {reviewed === 1 ? "card" : "cards"}.</p>
         <Link to="/" className="inline-flex mt-4 py-2.5 px-5 bg-ink text-white rounded-lg text-sm font-medium no-underline hover:opacity-85">Back to Dashboard</Link>
       </div>
     );

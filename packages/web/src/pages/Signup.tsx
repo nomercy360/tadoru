@@ -15,9 +15,16 @@ export function Signup() {
     setLoading(true);
     setError(null);
     const result = await authClient.signUp.email({ name, email, password });
-    setLoading(false);
     if (result.error) {
+      setLoading(false);
       setError(result.error.message || "Sign up failed");
+      return;
+    }
+    // Auto sign-in after signup so session is ready before navigating
+    const signInResult = await authClient.signIn.email({ email, password });
+    setLoading(false);
+    if (signInResult.error) {
+      setError(signInResult.error.message || "Account created but sign in failed");
       return;
     }
     navigate("/");
